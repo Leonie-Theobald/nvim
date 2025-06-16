@@ -1,0 +1,10 @@
+print("perform leonie/init.lua")
+
+require("leonie.basic")
+-- require("leonie.remap")
+require("leonie.packer")
+require("leonie.mason")
+require("leonie.lsp")
+-- require("leonie.rusttools")
+require("leonie.rustaceanvim")
+require("leonie.neotree")

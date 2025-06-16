@@ -1,0 +1,71 @@
+print("Setup packer.lua")
+
+-- Only required if you have packer configured as `opt`
+vim.cmd [[packadd packer.nvim]]
+
+return require('packer').startup(function(use)
+	-- Packer can manage itself
+	use 'wbthomason/packer.nvim'
+
+	use "nvim-lua/plenary.nvim" -- don't forget to add this one if you don't have it yet!
+	use {
+		"ThePrimeagen/harpoon",
+		branch = "harpoon2",
+		requires = { {"nvim-lua/plenary.nvim"} }
+	}
+
+	use {
+		'nvim-telescope/telescope.nvim', tag = '0.1.8',
+		-- or                            , branch = '0.1.x',
+		requires = { {'nvim-lua/plenary.nvim'} }
+	}
+
+	use {
+		'nvim-treesitter/nvim-treesitter',
+		{run = ':TSUpdate'}
+	}
+
+	use "mbbill/undotree"
+
+	use "tpope/vim-fugitive"
+
+	use "williamboman/mason.nvim"
+
+	use "mrcjkb/rustaceanvim"
+
+	use "doums/rg.nvim"
+
+	use {
+		"windwp/nvim-autopairs",
+		event = "InsertEnter",
+		config = function()
+			require("nvim-autopairs").setup {}
+		end
+	}
+
+	use({
+		"kylechui/nvim-surround",
+		tag = "*", -- Use for stability; omit to use `main` branch for the latest features
+		config = function()
+			require("nvim-surround").setup({
+				-- Configuration here, or leave empty to use defaults
+			})
+		end
+	})
+
+
+	use "ThePrimeagen/vim-be-good"
+
+	use "nvim-tree/nvim-tree.lua"
+
+	use({
+		"nvim-neo-tree/neo-tree.nvim",
+		branch = "v3.x",
+		requires = {
+			"nvim-lua/plenary.nvim",
+			"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+			"MunifTanjim/nui.nvim",
+			-- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
+		}
+	})
+end)
