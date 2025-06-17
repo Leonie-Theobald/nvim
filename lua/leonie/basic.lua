@@ -1,5 +1,7 @@
 print("Setup basic.lua")
 
+vim.opt.shortmess:append("sI")
+
 vim.g.mapleader = " "
 
 vim.opt.number = true
