@@ -1,8 +1,7 @@
 print("Setup neotree.lua")
 
-vim.keymap.set("n", "<leader>acf", "<Cmd>Neotree close<CR><Cmd>Neotree show<CR>")
-vim.keymap.set("n", "<leader>aff", "<Cmd>Neotree focus<CR>")
-vim.keymap.set("n", "<leader>acc", "<Cmd>Neotree close<CR>")
+vim.keymap.set("n", "<leader>at", "<Cmd>Neotree toggle<CR>") -- close<CR><Cmd>Neotree show<CR>")
+-- vim.keymap.set("n", "<leader>af", "<Cmd>Neotree focus<CR>")
 
 require("neo-tree").setup({
 	default_component_configs = {
@@ -15,7 +14,7 @@ require("neo-tree").setup({
 			-- indent guides
 			with_markers = true,
 			indent_marker = "│",
-			last_indent_marker = "└",
+			last_indent_marker = "│",
 			highlight = "NeoTreeIndentMarker",
 			-- expander config, needed for nesting files
 			with_expanders = nil, -- if nil and file nesting is enabled, will enable expanders
@@ -32,22 +31,26 @@ require("neo-tree").setup({
 			symbol = "[+]",
 			highlight = "NeoTreeModified",
 		},
+		popup_border_style = "",
+		enable_git_status = false,
+		enable_diagnostics = false,
+
 	},
-	--[[ git_status = {
+	git_status = {
 		symbols = {
 			-- Change type
-			added = "n", -- or "✚", but this is redundant info if you use git_status_colors on the name
-			modified = "m", -- or "", but this is redundant info if you use git_status_colors on the name
-			deleted = "x", -- this can only be used in the git_status source
-			renamed = "r", -- this can only be used in the git_status source
+			added = "", -- or "✚", but this is redundant info if you use git_status_colors on the name
+			modified = "", -- or "", but this is redundant info if you use git_status_colors on the name
+			deleted = "", -- this can only be used in the git_status source
+			renamed = "", -- this can only be used in the git_status source
 			-- Status type
-			untracked = "UNT",
-			ignored = "IGN",
-			unstaged = "NST",
-			staged = "ST",
-			conflict = "CON",
+			untracked = "",
+			ignored = "",
+			unstaged = "",
+			staged = "",
+			conflict = "",
 		},
-	}, ]]
+	},
 
 	filesystem = {
 		filtered_items = {
