@@ -1,7 +1,7 @@
 print("Setup neotree.lua")
 
-vim.keymap.set("n", "<leader>at", "<Cmd>Neotree toggle<CR>") -- close<CR><Cmd>Neotree show<CR>")
--- vim.keymap.set("n", "<leader>af", "<Cmd>Neotree focus<CR>")
+vim.keymap.set("n", "<leader>att", "<Cmd>Neotree toggle<CR>") -- toggles visibility of neotree
+vim.keymap.set("n", "<leader>atf", "<Cmd>Neotree focus<CR>") -- jumps to neotree from current file 
 
 require("neo-tree").setup({
 	default_component_configs = {
