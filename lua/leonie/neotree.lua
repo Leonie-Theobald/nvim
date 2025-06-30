@@ -137,6 +137,9 @@ require("neo-tree").setup({
 		}
 	},
 	enable_git_status = true,
+	sort_function = function (a, b)
+		return a.path < b.path
+	end,
 	default_component_configs = {
 	-- 	container = {
 	-- 		enable_character_fade = true,
@@ -273,6 +276,7 @@ require("neo-tree").setup({
 		},
 		renderers = {
 			file = {
+				{ "icon" },
 				-- { "harpoon_index" }, --> This is what actually adds the component in where you want it
 				-- { "git_status_or_whitespace", hightlight = "NeoTreeGitStatus" },
 				{ "name", use_git_status_colors = true },
