@@ -8,6 +8,9 @@ vim.api.nvim_set_hl(0, "NeoTreeGitUnstaged", { ctermfg=204 }) -- pink letter for
 vim.api.nvim_set_hl(0, "NeoTreeGitStaged", { ctermfg=46 }) -- green letter for Staged
 vim.api.nvim_set_hl(0, "NeoTreeGitConflict", { ctermfg=1 }) -- mark conflict files red
 
+vim.api.nvim_set_hl(0, "NeoTreeDirectoryName", { }) -- make directory font default 
+vim.api.nvim_set_hl(0, "NeoTreeDirectoryIcon", { }) -- make directory icon default 
+
 local function git_status_placeholder(_, node, _)
 	-- Always show two spaces if no git status
 end
