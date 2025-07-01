@@ -57,8 +57,6 @@ return require('packer').startup(function(use)
 
 	use "ThePrimeagen/vim-be-good"
 
-	use "nvim-tree/nvim-tree.lua"
-
 	use({
 		"nvim-neo-tree/neo-tree.nvim",
 		branch = "v3.x",
@@ -68,11 +66,6 @@ return require('packer').startup(function(use)
 			"MunifTanjim/nui.nvim",
 			-- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
 		}
-	})
-
-	use({
-		"iamcco/markdown-preview.nvim",
-		run = function() vim.fn["mkdp#util#install"]() end,
 	})
 
 	use({

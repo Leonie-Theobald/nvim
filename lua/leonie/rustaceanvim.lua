@@ -1,11 +1,5 @@
 print("Setup rustaceanvim.lua")
 
--- vim.lsp.config('rust_analyzer', {
--- 	-- Server-specific settings. See `:help lsp-quickstart`
--- 	-- settings = {
--- 	-- 	['rust-analyzer'] = {},
--- 	-- },
--- })
 local bufnr = vim.api.nvim_get_current_buf()
 vim.keymap.set(
 	"n", 
