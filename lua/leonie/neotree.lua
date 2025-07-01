@@ -3,12 +3,19 @@ print("Setup neotree.lua")
 vim.keymap.set("n", "<leader>att", "<Cmd>Neotree toggle<CR>") -- toggles visibility of neotree
 vim.keymap.set("n", "<leader>atf", "<Cmd>Neotree focus<CR>") -- jumps to neotree from current file 
 
+vim.api.nvim_set_hl(0, "NeoTreeDarkFont", { ctermfg = 236 })
+
 vim.api.nvim_set_hl(0, "NeoTreeGitUntracked", { ctermfg=218 }) -- changes file name and letter for unstaged
 vim.api.nvim_set_hl(0, "NeoTreeGitIgnored", { ctermfg=240 }) -- grey line for files in .gitignore
 vim.api.nvim_set_hl(0, "NeoTreeGitUntracked", { ctermfg=214 }) -- orange letter for Untracked
 vim.api.nvim_set_hl(0, "NeoTreeGitUnstaged", { ctermfg=204 }) -- pink letter for Unstaged
 vim.api.nvim_set_hl(0, "NeoTreeGitStaged", { ctermfg=46 }) -- green letter for Staged
 vim.api.nvim_set_hl(0, "NeoTreeGitConflict", { ctermfg=1 }) -- mark conflict files red
+
+vim.api.nvim_set_hl(0, "DiagnosticsHint", { ctermfg=6 }) -- mark conflict files red
+vim.api.nvim_set_hl(0, "DiagnosticsInfo", { ctermfg=6 }) -- mark conflict files red
+vim.api.nvim_set_hl(0, "DiagnosticsWarning", { ctermfg=202 }) -- mark conflict files red
+vim.api.nvim_set_hl(0, "DiagnosticsError", { ctermfg=9 }) -- mark conflict files red
 
 vim.api.nvim_set_hl(0, "NeoTreeDirectoryName", { ctermfg=15 }) -- make directory font default 
 vim.api.nvim_set_hl(0, "NeoTreeDirectoryIcon", { }) -- make directory icon default 
@@ -25,13 +32,13 @@ require("neo-tree").setup({
 			with_markers = true,
 			indent_marker = "│",
 			last_indent_marker = "│",
-			highlight = "NeoTreeIndentMarker",
+			highlight = "NeoTreeDarkFont",
 			-- expander config, needed for nesting files
 			-- if nil and file nesting is enabled, will enable expanders
 			with_expanders = nil, 
 			expander_collapsed = "■",
 			expander_expanded = "□",
-			expander_highlight = "NeoTreeExpander",
+			expander_highlight = "NeoTreeDarkFont",
 		},
 		icon = {
 			folder_closed = "■",
@@ -43,33 +50,6 @@ require("neo-tree").setup({
 		-- modified = {
 		-- 	symbol = "~",
 		-- 	highlight = "",
-		-- },
-
-		diagnostic = {
-			enabled = true,
-			symbols = {
-				hint = "H",
-				info = "I",
-				warn = "W",
-				error = "E",
-			}
-		},
-		-- git_status = {
-		-- 	enabled = true,
-		-- 	symbols = {
-		-- 		-- Change type
-		-- 		added = "",
-		-- 		modified = "",
-		-- 		deleted = "",
-		-- 		renamed = "",
-		-- 		-- Status type
-		-- 		untracked = "U",
-		-- 		ignored = " I",
-		-- 		unstaged = "Z",
-		-- 		staged = " S",
-		-- 		conflict = "C",
-		-- 	},
-		-- 	highlight = true,
 		-- },
 	},
 	filesystem = {
@@ -83,7 +63,7 @@ require("neo-tree").setup({
 		},
 		group_empty_dirs = true,
 		components = {
-			git_status_or_empty = function(config, node, state)
+			git_status_or_default = function(config, node, state)
 				local git_status = require("neo-tree.sources.common.components")
 					.git_status(config, node, state).text
 
@@ -91,7 +71,7 @@ require("neo-tree").setup({
 				if git_status == nil then
 					return {
 						text = "-",
-						highlight = "Normal"
+						highlight = "NeoTreeDarkFont"
 					}
 				-- untracked
 				elseif git_status == "[?]" then
@@ -105,8 +85,8 @@ require("neo-tree").setup({
 						text = "I",
 						highlight = "NeoTreeGitIgnored"
 					}	
-				-- unstaged
-				elseif git_status == "[ M]" then
+				-- unstaged or modified
+				elseif git_status == "[ M]" or git_status == "[M]" then
 					return {
 						text = "Z",
 						highlight = "NeoTreeGitUnstaged"
@@ -117,6 +97,13 @@ require("neo-tree").setup({
 						text = "S",
 						highlight = "NeoTreeGitStaged"
 					}	
+				-- partially staged and modified/unstaged
+				-- happens if a file is staged and then modified again
+				elseif git_status == "[MM]" then
+					return {
+						text = "5",
+						highlight = "NeoTreeGitUnstaged"
+					}	
 				-- conflict
 				elseif git_status == "[C]" then
 					return {
@@ -125,39 +112,64 @@ require("neo-tree").setup({
 					}	
 				-- missing git status symbol
 				else
-					print(git_status)
 					return {
-						text = "Ö",
-					}	
+						text = git_status,
+						highlight = "DiagnosticsError"
+					}
 				end
 			end,
-			diagnostics_or_empty = function(config, node, state)
-				local result = require("neo-tree.sources.common.components")
-					.diagnostics(config, node, state)
+			diagnostics_or_default = function(config, node, state)
+				local diagnostics = require("neo-tree.sources.common.components")
+					.diagnostics(config, node, state).text
 
-				if git_status == nil then
+				-- not part of diagnostics
+				-- Hints don't need to show up next to file
+				-- They accompany an error or warning anyways
+				if diagnostics == nil or diagnostics == "H" then
 					return {
 						text = "-",
-						highlight = "Normal"
+						highlight = "NeoTreeDarkFont"
 					}
+				-- info
+				elseif diagnostics == "I" then
+					return {
+						text = "I",
+						highlight = "DiagnosticsInfo"
+					}
+				-- warning
+				elseif diagnostics == "W" then
+					return {
+						text = "W",
+						highlight = "DiagnosticsWarning"
+					}
+				-- error
+				elseif diagnostics == "E" then
+					return {
+						text = "E",
+						highlight = "DiagnosticsError"
+					}
+				-- missing diagnostics symbol
 				else
-					return result
+					return {
+						text = diagnostics,
+						highlight = "DiagnosticsError"
+					}
 				end
 			end
 		},
 		renderers = {
 			directory = {
 				{ "icon" },
-				{ "git_status_or_empty" },
-				{ "diagnostics_or_empty" },
+				{ "git_status_or_default" },
+				{ "diagnostics_or_default" },
 				{ "name" },
 				-- { "git_status" },
 				-- { "diagnostics" },
 			},
 			file = {
 				{ "icon" },
-				{ "git_status_or_empty" },
-				{ "diagnostics_or_empty" },
+				{ "git_status_or_default" },
+				{ "diagnostics_or_default" },
 				{ "name" },
 				-- { "git_status" },
 				-- { "diagnostics" },
