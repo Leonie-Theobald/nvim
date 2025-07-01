@@ -4,7 +4,8 @@ vim.keymap.set("n", "<leader>att", "<Cmd>Neotree toggle<CR>") -- toggles visibil
 vim.keymap.set("n", "<leader>atf", "<Cmd>Neotree focus<CR>") -- jumps to neotree from current file 
 
 vim.api.nvim_set_hl(0, "NeoTreeGitUntracked", { ctermfg=218 }) -- changes file name and letter for unstaged
-vim.api.nvim_set_hl(0, "NeoTreeGitIgnored", { ctermfg=243 }) -- grey line for files in .gitignore
+vim.api.nvim_set_hl(0, "NeoTreeGitIgnored", { ctermfg=240 }) -- grey line for files in .gitignore
+vim.api.nvim_set_hl(0, "NeoTreeGitUntracked", { ctermfg=214 }) -- orange letter for Untracked
 vim.api.nvim_set_hl(0, "NeoTreeGitUnstaged", { ctermfg=204 }) -- pink letter for Unstaged
 vim.api.nvim_set_hl(0, "NeoTreeGitStaged", { ctermfg=46 }) -- green letter for Staged
 vim.api.nvim_set_hl(0, "NeoTreeGitConflict", { ctermfg=1 }) -- mark conflict files red
@@ -12,31 +13,7 @@ vim.api.nvim_set_hl(0, "NeoTreeGitConflict", { ctermfg=1 }) -- mark conflict fil
 vim.api.nvim_set_hl(0, "NeoTreeDirectoryName", { ctermfg=15 }) -- make directory font default 
 vim.api.nvim_set_hl(0, "NeoTreeDirectoryIcon", { }) -- make directory icon default 
 
-local function git_status_placeholder(_, node, _)
-	-- Always show two spaces if no git status
-end
-
-function abc_text()
-	return {
-		text = " abc ",
-		highlight = "Comment",
-	}
-end
-
 require("neo-tree").setup({
-	source_selector = {
-		sources = { 
-			{
-				source = "filesystem",
-				display_name = "TREE",
-			},
-			{
-				source = "git_status",
-				display_name = "STATUS"
-			}
-		}
-	},
-	enable_git_status = true,
 	sort_function = function (a, b)
 		return a.path < b.path
 	end,
@@ -67,8 +44,6 @@ require("neo-tree").setup({
 		-- 	symbol = "~",
 		-- 	highlight = "",
 		-- },
-		enable_git_status = true,
-		enable_diagnostics = false,
 
 		diagnostic = {
 			enabled = true,
@@ -79,23 +54,23 @@ require("neo-tree").setup({
 				error = "E",
 			}
 		},
-		git_status = {
-			enabled = true,
-			symbols = {
-				-- Change type
-				added = "",
-				modified = "",
-				deleted = "",
-				renamed = "",
-				-- Status type
-				untracked = " U",
-				ignored = " I",
-				unstaged = "Z",
-				staged = " S",
-				conflict = " C",
-			},
-			highlight = true,
-		},
+		-- git_status = {
+		-- 	enabled = true,
+		-- 	symbols = {
+		-- 		-- Change type
+		-- 		added = "",
+		-- 		modified = "",
+		-- 		deleted = "",
+		-- 		renamed = "",
+		-- 		-- Status type
+		-- 		untracked = "U",
+		-- 		ignored = " I",
+		-- 		unstaged = "Z",
+		-- 		staged = " S",
+		-- 		conflict = "C",
+		-- 	},
+		-- 	highlight = true,
+		-- },
 	},
 	filesystem = {
 		filtered_items = {
@@ -109,23 +84,58 @@ require("neo-tree").setup({
 		group_empty_dirs = true,
 		components = {
 			git_status_or_empty = function(config, node, state)
-				local result = require("neo-tree.sources.common.components")
-					.git_status(config, node, state)
+				local git_status = require("neo-tree.sources.common.components")
+					.git_status(config, node, state).text
 
-				if result.text == nil then
+				-- not part of git status
+				if git_status == nil then
 					return {
-						text = "GG",
+						text = "-",
 						highlight = "Normal"
 					}
+				-- untracked
+				elseif git_status == "[?]" then
+					return {
+						text = "U",
+						highlight = "NeoTreeGitUntracked"
+					}	
+				-- ignored
+				elseif git_status == "[!!]" then
+					return {
+						text = "I",
+						highlight = "NeoTreeGitIgnored"
+					}	
+				-- unstaged
+				elseif git_status == "[ M]" then
+					return {
+						text = "Z",
+						highlight = "NeoTreeGitUnstaged"
+					}	
+				-- staged
+				elseif git_status == "[A]" then
+					return {
+						text = "S",
+						highlight = "NeoTreeGitStaged"
+					}	
+				-- conflict
+				elseif git_status == "[C]" then
+					return {
+						text = "C",
+						highlight = "NeoTreeGitConflict"
+					}	
+				-- missing git status symbol
 				else
-					return result
+					print(git_status)
+					return {
+						text = "Ö",
+					}	
 				end
 			end,
 			diagnostics_or_empty = function(config, node, state)
 				local result = require("neo-tree.sources.common.components")
 					.diagnostics(config, node, state)
 
-				if result.text == nil then
+				if git_status == nil then
 					return {
 						text = "-",
 						highlight = "Normal"
@@ -138,18 +148,18 @@ require("neo-tree").setup({
 		renderers = {
 			directory = {
 				{ "icon" },
-				-- { "git_status_or_empty" },
+				{ "git_status_or_empty" },
 				{ "diagnostics_or_empty" },
 				{ "name" },
-				{ "git_status" },
+				-- { "git_status" },
 				-- { "diagnostics" },
 			},
 			file = {
 				{ "icon" },
-				-- { "git_status_or_empty" },
+				{ "git_status_or_empty" },
 				{ "diagnostics_or_empty" },
 				{ "name" },
-				{ "git_status" },
+				-- { "git_status" },
 				-- { "diagnostics" },
 			},
 		},
