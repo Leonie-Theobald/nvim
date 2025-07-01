@@ -1,4 +1,5 @@
 print("Setup neotree.lua")
+
 vim.keymap.set("n", "<leader>att", "<Cmd>Neotree toggle<CR>") -- toggles visibility of neotree
 vim.keymap.set("n", "<leader>atf", "<Cmd>Neotree focus<CR>") -- jumps to neotree from current file 
 
@@ -76,7 +77,17 @@ require("neo-tree").setup({
 		enable_git_status = true,
 		enable_diagnostics = false,
 
+		diagnostic = {
+			enabled = true,
+			symbols = {
+				hint = "H",
+				info = "I",
+				warn = "W",
+				error = "E",
+			}
+		},
 		git_status = {
+			enabled = true,
 			symbols = {
 				-- Change type
 				added = "",
@@ -174,12 +185,21 @@ require("neo-tree").setup({
 			end,
 		},
 		renderers = {
+			directory = {
+				{ "icon" },
+				-- { "harpoon_index" }, --> This is what actually adds the component in where you want it
+				-- { "git_status_or_whitespace", hightlight = "NeoTreeGitStatus" },
+				{ "name", use_git_status_colors = true },
+				{ "git_status" },
+				{ "diagnostics" },
+			},
 			file = {
 				{ "icon" },
 				-- { "harpoon_index" }, --> This is what actually adds the component in where you want it
 				-- { "git_status_or_whitespace", hightlight = "NeoTreeGitStatus" },
 				{ "name", use_git_status_colors = true },
 				{ "git_status" },
+				{ "diagnostics" },
 			},
 		},
 	},
