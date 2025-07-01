@@ -8,7 +8,7 @@ vim.api.nvim_set_hl(0, "NeoTreeGitUnstaged", { ctermfg=204 }) -- pink letter for
 vim.api.nvim_set_hl(0, "NeoTreeGitStaged", { ctermfg=46 }) -- green letter for Staged
 vim.api.nvim_set_hl(0, "NeoTreeGitConflict", { ctermfg=1 }) -- mark conflict files red
 
-vim.api.nvim_set_hl(0, "NeoTreeDirectoryName", { }) -- make directory font default 
+vim.api.nvim_set_hl(0, "NeoTreeDirectoryName", { ctermfg=15 }) -- make directory font default 
 vim.api.nvim_set_hl(0, "NeoTreeDirectoryIcon", { }) -- make directory icon default 
 
 local function git_status_placeholder(_, node, _)
@@ -20,110 +20,6 @@ function abc_text()
 		text = " abc ",
 		highlight = "Comment",
 	}
-end
-
-local function git_status_copy(config, node, state)
-	local git_status_lookup = state.git_status_lookup
-	if config.hide_when_expanded and node.type == "directory" and node:is_expanded() then
-		return {}
-	end
-	if not git_status_lookup then
-		return {}
-	end
-	local git_status = git_status_lookup[node.path]
-	if not git_status then
-		if node.filtered_by and node.filtered_by.gitignored then
-			git_status = "!!"
-		else
-			return {}
-		end
-	end
-
-	local symbols = config.symbols or {}
-	local change_symbol
-	local change_highlt = highlights.FILE_NAME
-	---@type string?
-	local status_symbol = symbols.staged
-	local status_highlt = highlights.GIT_STAGED
-	if node.type == "directory" and git_status:len() == 1 then
-		status_symbol = nil
-	end
-
-	if git_status:sub(1, 1) == " " then
-		status_symbol = symbols.unstaged
-		status_highlt = highlights.GIT_UNSTAGED
-	end
-
-	if git_status:match("?$") then
-		status_symbol = nil
-		status_highlt = highlights.GIT_UNTRACKED
-		change_symbol = symbols.untracked
-		change_highlt = highlights.GIT_UNTRACKED
-		-- all variations of merge conflicts
-	elseif git_status == "DD" then
-		status_symbol = symbols.conflict
-		status_highlt = highlights.GIT_CONFLICT
-		change_symbol = symbols.deleted
-		change_highlt = highlights.GIT_CONFLICT
-	elseif git_status == "UU" then
-		status_symbol = symbols.conflict
-		status_highlt = highlights.GIT_CONFLICT
-		change_symbol = symbols.modified
-		change_highlt = highlights.GIT_CONFLICT
-	elseif git_status == "AA" then
-		status_symbol = symbols.conflict
-		status_highlt = highlights.GIT_CONFLICT
-		change_symbol = symbols.added
-		change_highlt = highlights.GIT_CONFLICT
-	elseif git_status:match("U") then
-		status_symbol = symbols.conflict
-		status_highlt = highlights.GIT_CONFLICT
-		if git_status:match("A") then
-			change_symbol = symbols.added
-		elseif git_status:match("D") then
-			change_symbol = symbols.deleted
-		end
-		change_highlt = highlights.GIT_CONFLICT
-		-- end merge conflict section
-	elseif git_status:match("M") then
-		change_symbol = symbols.modified
-		change_highlt = highlights.GIT_MODIFIED
-	elseif git_status:match("R") then
-		change_symbol = symbols.renamed
-		change_highlt = highlights.GIT_RENAMED
-	elseif git_status:match("[ACT]") then
-		change_symbol = symbols.added
-		change_highlt = highlights.GIT_ADDED
-	elseif git_status:match("!") then
-		status_symbol = nil
-		change_symbol = symbols.ignored
-		change_highlt = highlights.GIT_IGNORED
-	elseif git_status:match("D") then
-		change_symbol = symbols.deleted
-		change_highlt = highlights.GIT_DELETED
-	end
-
-	if change_symbol or status_symbol then
-		local components = {}
-		if type(change_symbol) == "string" and #change_symbol > 0 then
-			table.insert(components, {
-				text = make_two_char(change_symbol),
-				highlight = change_highlt,
-			})
-		end
-		if type(status_symbol) == "string" and #status_symbol > 0 then
-			table.insert(components, {
-				text = make_two_char(status_symbol),
-				highlight = status_highlt,
-			})
-		end
-		return components
-	else
-		return {
-			text = "[" .. git_status .. "]",
-			highlight = config.highlight or change_highlt,
-		}
-	end
 end
 
 require("neo-tree").setup({
