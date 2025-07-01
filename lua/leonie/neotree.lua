@@ -45,7 +45,7 @@ require("neo-tree").setup({
 			folder_open = "□",
 			folder_empty = "⛶",
 			default = " ",
-			hightlight = "",
+			hightlight = "NeoTreeDarkFont",
 		},
 		-- modified = {
 		-- 	symbol = "~",
