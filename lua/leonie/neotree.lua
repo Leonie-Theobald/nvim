@@ -41,9 +41,6 @@ require("neo-tree").setup({
 		return a.path < b.path
 	end,
 	default_component_configs = {
-	-- 	container = {
-	-- 		enable_character_fade = true,
-	-- 	},
 		indent = {
 			indent_size = 2,
 			padding = 1, -- extra padding on left hand side
@@ -53,7 +50,8 @@ require("neo-tree").setup({
 			last_indent_marker = "│",
 			highlight = "NeoTreeIndentMarker",
 			-- expander config, needed for nesting files
-			with_expanders = nil, -- if nil and file nesting is enabled, will enable expanders
+			-- if nil and file nesting is enabled, will enable expanders
+			with_expanders = nil, 
 			expander_collapsed = "■",
 			expander_expanded = "□",
 			expander_highlight = "NeoTreeExpander",
@@ -65,15 +63,10 @@ require("neo-tree").setup({
 			default = " ",
 			hightlight = "",
 		},
-	-- 	name = {
-	-- 		hightlight = "",
-	-- 		use_git_status_colors = false,
-	-- 	},
-	-- 	modified = {
-	-- 		symbol = "~",
-	-- 		highlight = "",
-	-- 	},
-		popup_border_style = "",
+		-- modified = {
+		-- 	symbol = "~",
+		-- 	highlight = "",
+		-- },
 		enable_git_status = true,
 		enable_diagnostics = false,
 
@@ -97,7 +90,7 @@ require("neo-tree").setup({
 				-- Status type
 				untracked = " U",
 				ignored = " I",
-				unstaged = "US",
+				unstaged = "Z",
 				staged = " S",
 				conflict = " C",
 			},
@@ -115,201 +108,50 @@ require("neo-tree").setup({
 		},
 		group_empty_dirs = true,
 		components = {
-			abc_text = function(config, node, _)
-				return {
-					text = " abc ",
-					highlight = "Comment",
-				}
-			end,
-			harpoon_index = function(config, node, _)
-				local harpoon_list = require("harpoon"):list()
-				local path = node:get_id()
-				local harpoon_key = vim.uv.cwd()
+			git_status_or_empty = function(config, node, state)
+				local result = require("neo-tree.sources.common.components")
+					.git_status(config, node, state)
 
-				for i, item in ipairs(harpoon_list.items) do
-					local value = item.value
-					if string.sub(item.value, 1, 1) ~= "/" then
-						value = harpoon_key .. "/" .. item.value
-					end
-
-					if value == path then
-						vim.print(path)
-						return {
-							text = string.format(" ⥤ %d", i), -- <-- Add your favorite harpoon like arrow here
-							highlight = config.highlight or "NeoTreeDirectoryIcon",
-						}
-					else
-						return {
-							text = "   ",
-							highlight = config.hightlight
-						}
-					end
-				end
-				return {}
-			end,
-			git_status_or_whitespace = function(config, node, state)
-				local git_status_lookup = state.git_status_lookup
-				local symbol = git_status_lookup[node.path]
-				-- print("Curent path: " .. node.path)
-				-- print(vim.inspect(git_status_lookup["/root/.config/nvim/lua/leonie/init.lua"]))
-				-- print(vim.inspect(git_status_lookup))
-				--  print(vim.inspect(state.git_status_lookup))
-				if symbol == nil then 
+				if result.text == nil then
 					return {
-						text = " ni ",
-						highlight = "NeoTreeGitStatus"
+						text = "GG",
+						highlight = "Normal"
 					}
 				else
-					-- local config
-					local my_config = vim.tbl_deep_extend("force", config or {}, {
-						symbols = {
-							added     = "🞧",
-							modified  = "~",
-							deleted   = "✘",
-							renamed   = "➡",
-							untracked = "?",
-							ignored   = "◌",
-							staged    = "+",
-							unstaged  = "!",
-							conflict  = "⚠",
-						},
-						highlight = "NeoTreeGitStatus",
-					})
-
-					return {
-						-- git_status_copy(config, node, state)
-						require("neo-tree.sources.common.components").git_status(my_config, node, state)
-						-- text = "+" .. git_status .. "+",
-					}
+					return result
 				end
 			end,
+			diagnostics_or_empty = function(config, node, state)
+				local result = require("neo-tree.sources.common.components")
+					.diagnostics(config, node, state)
+
+				if result.text == nil then
+					return {
+						text = "-",
+						highlight = "Normal"
+					}
+				else
+					return result
+				end
+			end
 		},
 		renderers = {
 			directory = {
 				{ "icon" },
-				-- { "harpoon_index" }, --> This is what actually adds the component in where you want it
-				-- { "git_status_or_whitespace", hightlight = "NeoTreeGitStatus" },
-				{ "name", use_git_status_colors = true },
+				-- { "git_status_or_empty" },
+				{ "diagnostics_or_empty" },
+				{ "name" },
 				{ "git_status" },
-				{ "diagnostics" },
+				-- { "diagnostics" },
 			},
 			file = {
 				{ "icon" },
-				-- { "harpoon_index" }, --> This is what actually adds the component in where you want it
-				-- { "git_status_or_whitespace", hightlight = "NeoTreeGitStatus" },
-				{ "name", use_git_status_colors = true },
+				-- { "git_status_or_empty" },
+				{ "diagnostics_or_empty" },
+				{ "name" },
 				{ "git_status" },
-				{ "diagnostics" },
+				-- { "diagnostics" },
 			},
 		},
 	},
-	-- default_component_configs = {
-	-- 	container = {
-	-- 		enable_character_fade = true,
-	-- 	},
-	-- 	indent = {
-	-- 		indent_size = 2,
-	-- 		padding = 1, -- extra padding on left hand side
-	-- 		-- indent guides
-	-- 		with_markers = true,
-	-- 		indent_marker = "│",
-	-- 		last_indent_marker = "│",
-	-- 		highlight = "NeoTreeIndentMarker",
-	-- 		-- expander config, needed for nesting files
-	-- 		with_expanders = nil, -- if nil and file nesting is enabled, will enable expanders
-	-- 		expander_collapsed = "■",
-	-- 		expander_expanded = "□",
-	-- 		expander_highlight = "NeoTreeExpander",
-	-- 	},
-	-- 	icon = {
-	-- 		folder_closed = "■",
-	-- 		folder_open = "□",
-	-- 		folder_empty = "⛶",
-	-- 		default = " ",
-	-- 		hightlight = "",
-	-- 	},
-	-- 	name = {
-	-- 		hightlight = "",
-	-- 		use_git_status_colors = false,
-	-- 	},
-	-- 	modified = {
-	-- 		symbol = "~",
-	-- 		highlight = "",
-	-- 	},
-	-- 	popup_border_style = "",
-	-- 	enable_git_status = true,
-	-- 	enable_diagnostics = false,
-
-	-- 	git_status = {
-	-- 		symbols = {
-	-- 			-- Change type
-	-- 			added = "",
-	-- 			modified = "",
-	-- 			deleted = "",
-	-- 			renamed = "",
-	-- 			-- Status type
-	-- 			untracked = " U",
-	-- 			ignored = " I",
-	-- 			unstaged = "US",
-	-- 			staged = " S",
-	-- 			conflict = " C",
-	-- 		},
-	-- 		highlight = true,
-	-- 	},
-	-- },
-
-	-- filesystem = {
-	-- 	filtered_items = {
-	-- 		visible = true,
-	-- 		hide_dotfiles = false,
-	-- 	},
-	-- 	follow_current_file = {
-	-- 		enabled = true,
-	-- 		leave_dirs_open = false,
-	-- 	},
-	-- 	group_empty_dirs = true,
-	-- 	components = {
-	-- 		abc_text = function()
-	-- 			return {
-	-- 				text = " abc ",
-	-- 				highlight = "Comment",
-	-- 			}
-	-- 		end,
-	-- 		harpoon_index = function(config, node)
-	-- 			return {
-	-- 				text = " abc ",
-	-- 			}
-	-- 		end,
-	-- 	},
-	-- },
-	-- renderers = {
-	-- 	directory = {
-	-- 		{ "icon" },
-	-- 		-- { "git_status", hightlight = "NeoTreeGitStatus" },
-	-- 		{ "name", hightligh = "Normal" },
-	-- 	},
-	-- 	file = {
-	-- 		{ "icon" },
-	-- 		{ "abc_text" },
-	-- 		{ "git_status", hightlight = "NeoTreeGitStatus" },
-	-- 		{ "name" },
-	-- 	}
-	-- }
 })
-
-
-
--- require("nvim-web-devicons").set_icon {
-	--   lua = {
-		--     icon = "G",  -- Custom icon
-		--     color = "#519aba",
-		--     cterm_color = "74",
-		--     name = "Lua"
-		--   },
-		--   md = {
-			--     icon = "G",  -- Custom icon
-			--     color = "#519aba",
-			--     cterm_color = "74",
-			--     name = "Md"
-			--   },
-			-- }
