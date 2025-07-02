@@ -1,56 +1,134 @@
 print("Setup lualine.lua")
 
-require('lualine').setup {
+-- Eviline config for lualine
+-- Author: shadmansaleh
+-- Credit: glepnir
+local lualine = require('lualine')
+
+-- Color table for highlights
+-- stylua: ignore
+local colors = {
+	bg       = "",	-- transparent background
+	fg       = 223,
+	diff_added = 28,
+	diff_deleted = 1,
+	diff_changed = 27,
+	diag_error = 9,
+	diag_warn = 202,
+	diag_hint = 6,
+	diag_info = 6,
+}
+
+local conditions = {
+	buffer_not_empty = function()
+		return vim.fn.empty(vim.fn.expand('%:t')) ~= 1
+	end,
+	hide_in_width = function()
+		return vim.fn.winwidth(0) > 80
+	end,
+	-- check_git_workspace = function()
+	-- 	local filepath = vim.fn.expand('%:p:h')
+	-- 	local gitdir = vim.fn.finddir('.git', filepath .. ';')
+	-- 	return gitdir and #gitdir > 0 and #gitdir < #filepath
+	-- end,
+}
+
+-- Config
+local config = {
 	options = {
-		icons_enabled = true,
-		theme = 'auto',
-		component_separators = { left = '', right = ''},
-		section_separators = { left = '', right = ''},
-		disabled_filetypes = {
-			statusline = {},
-			winbar = {},
+		-- Disable sections and component separators
+		component_separators = '',
+		section_separators = '',
+		theme = {
+			-- We are going to use lualine_c an lualine_x as left and
+			-- right section. Both are highlighted by c theme .  So we
+			-- are just setting default looks o statusline
+			normal = { c = { fg = colors.fg, bg = colors.bg } },
+			inactive = { c = { fg = colors.fg, bg = colors.bg } },
 		},
-		ignore_focus = {},
-		always_divide_middle = true,
-		always_show_tabline = true,
-		globalstatus = false,
-		refresh = {
-			statusline = 1000,
-			tabline = 1000,
-			winbar = 1000,
-			refresh_time = 16, -- ~60fps
-			events = {
-				'WinEnter',
-				'BufEnter',
-				'BufWritePost',
-				'SessionLoadPost',
-				'FileChangedShellPost',
-				'VimResized',
-				'Filetype',
-				'CursorMoved',
-				'CursorMovedI',
-				'ModeChanged',
-			},
-		}
 	},
 	sections = {
-		lualine_a = {'mode'},
-		lualine_b = {'branch', 'diff', 'diagnostics'},
-		lualine_c = {'filename'},
-		lualine_x = {'encoding', 'fileformat', 'filetype'},
-		lualine_y = {'progress'},
-		lualine_z = {'location'}
-	},
-	inactive_sections = {
+		-- these are to remove the defaults
 		lualine_a = {},
 		lualine_b = {},
-		lualine_c = {'filename'},
-		lualine_x = {'location'},
 		lualine_y = {},
-		lualine_z = {}
+		lualine_z = {},
+		-- These will be filled later
+		lualine_c = {},
+		lualine_x = {},
 	},
-	tabline = {},
-	winbar = {},
-	inactive_winbar = {},
-	extensions = {}
+	inactive_sections = {
+		-- these are to remove the defaults
+		lualine_a = {},
+		lualine_b = {},
+		lualine_y = {},
+		lualine_z = {},
+		lualine_c = {},
+		lualine_x = {},
+	},
 }
+
+-- Inserts a component in lualine_c at left section
+local function ins_left(component)
+	table.insert(config.sections.lualine_c, component)
+end
+
+-- Inserts a component in lualine_x at right section
+local function ins_right(component)
+	table.insert(config.sections.lualine_x, component)
+end
+
+ins_left {
+	-- mode component
+	function()
+		return vim.fn.mode()
+	end,
+	color = { colors.fg, gui = "underline" },
+	padding = { right = 0 },
+}
+
+ins_left {
+	'filename',
+	path = 3,
+	cond = conditions.buffer_not_empty,
+	color = { gui = 'underline' } 
+}
+
+ins_left { 'location', color = { gui = "underline" } }
+
+ins_left { 'progress', color = { gui = "underline" } }
+
+
+ins_right {
+	'branch',
+	icon = '',
+	color = { gui = "underline" }
+}
+
+ins_right {
+	'diagnostics',
+	sources = { 'nvim_diagnostic' },
+	symbols = { error = 'E', warn = 'W', info = 'I', hint = "H" },
+	diagnostics_color = {
+		error = {fg =colors.diag_error },
+		warn = { fg = colors.diag_warn },
+		info = { fg = colors.diag_info },
+		hint = { fg = colors.diag_hint },
+	},
+}
+
+-- Add components to right sections
+ins_right {
+	'diff',
+	-- Is it me or the symbol for modified us really weird
+	symbols = { added = '+', modified = '~', removed = '-' },
+	diff_color = {
+		added = { fg = colors.diff_added },
+		modified = { fg = colors.diff_changed },
+		removed = { fg = colors.diff_deleted },
+	},
+	-- cond = conditions.hide_in_width,
+}
+
+-- Now don't forget to initialize lualine
+lualine.setup(config)
