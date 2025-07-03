@@ -79,7 +79,6 @@ return require('packer').startup(function(use)
 
 	use "lewis6991/gitsigns.nvim"
 
-	use 'neovim/nvim-lspconfig' 
 	--use 'simrat39/rust-tools.nvim'
 	use 'mrcjkb/rustaceanvim'
 
