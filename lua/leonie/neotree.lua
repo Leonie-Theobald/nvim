@@ -116,6 +116,12 @@ require("neo-tree").setup({
 						text = "C",
 						highlight = "NeoTreeGitConflict"
 					}	
+				-- unmerged
+				elseif git_status == "[U]" or git_status == "[UU]" then
+					return {
+						text = "C",
+						highlight = "NeoTreeGitConflict"
+					}	
 				-- missing git status symbol
 				else
 					return {
