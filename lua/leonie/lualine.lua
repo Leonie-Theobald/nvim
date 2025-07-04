@@ -8,8 +8,8 @@ local lualine = require('lualine')
 -- Color table for highlights
 -- stylua: ignore
 local colors = {
-	bg       = "",	-- transparent background
-	fg       = 223,
+	bg       = 15,
+	fg       = 0,
 	diff_added = 28,
 	diff_deleted = 1,
 	diff_changed = 27,
