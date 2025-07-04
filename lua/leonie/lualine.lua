@@ -8,6 +8,7 @@ local lualine = require('lualine')
 -- Color table for highlights
 -- stylua: ignore
 local colors = {
+	transparent_bg = "",
 	bg       = 15,
 	fg       = 0,
 	diff_added = 28,
@@ -110,10 +111,10 @@ ins_right {
 	sources = { 'nvim_diagnostic' },
 	symbols = { error = 'E', warn = 'W', info = 'I', hint = "H" },
 	diagnostics_color = {
-		error = {fg =colors.diag_error },
-		warn = { fg = colors.diag_warn },
-		info = { fg = colors.diag_info },
-		hint = { fg = colors.diag_hint },
+		error = {fg = colors.diag_error, bg = colors.transparent_bg },
+		warn = { fg = colors.diag_warn, bg = colors.transparent_bg },
+		info = { fg = colors.diag_info, bg = colors.transparent_bg },
+		hint = { fg = colors.diag_hint, bg = colors.transparent_bg },
 	},
 }
 
@@ -123,9 +124,9 @@ ins_right {
 	-- Is it me or the symbol for modified us really weird
 	symbols = { added = '+', modified = '~', removed = '-' },
 	diff_color = {
-		added = { fg = colors.diff_added },
-		modified = { fg = colors.diff_changed },
-		removed = { fg = colors.diff_deleted },
+		added = { fg = colors.diff_added, bg = colors.transparent_bg },
+		modified = { fg = colors.diff_changed, bg = colors.transparent_bg },
+		removed = { fg = colors.diff_deleted, bg = colors.transparent_bg },
 	},
 	-- cond = conditions.hide_in_width,
 }
