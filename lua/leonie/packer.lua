@@ -32,8 +32,6 @@ return require('packer').startup(function(use)
 	use "williamboman/mason.nvim"
 	use "williamboman/mason-lspconfig.nvim"
 
-	use "mrcjkb/rustaceanvim"
-
 	use "doums/rg.nvim"
 
 	use {
@@ -79,7 +77,6 @@ return require('packer').startup(function(use)
 
 	use "lewis6991/gitsigns.nvim"
 
-	--use 'simrat39/rust-tools.nvim'
 	use 'mrcjkb/rustaceanvim'
 
 	 -- Completion framework:
