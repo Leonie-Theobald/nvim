@@ -91,6 +91,12 @@ require("neo-tree").setup({
 						text = "Z",
 						highlight = "NeoTreeGitUnstaged"
 					}	
+				-- renamed
+				elseif git_status == "[R100]" then
+					return {
+						text = "R",
+						highlight = "NeoTreeGitStaged"
+					}	
 				-- deleted
 				elseif git_status == "[D]" then
 					return {
