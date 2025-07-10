@@ -192,8 +192,11 @@ _G.packer_plugins = {
     url = "https://github.com/doums/rg.nvim"
   },
   rustaceanvim = {
-    loaded = true,
-    path = "/Users/lth/.local/share/nvim/site/pack/packer/start/rustaceanvim",
+    config = { "\27LJ\2\né\2\0\0\6\0\14\0\0156\0\0\0009\0\1\0005\1\f\0005\2\n\0005\3\b\0005\4\3\0005\5\4\0=\5\5\0045\5\6\0=\5\a\4=\4\t\3=\3\v\2=\2\r\1=\1\2\0K\0\1\0\vserver\1\0\1\vserver\0\21default_settings\1\0\1\21default_settings\0\18rust-analyzer\1\0\1\18rust-analyzer\0\15inlayHints\1\0\1\18locationLinks\1\ncheck\1\0\2\venable\2\fcommand\vclippy\1\0\3\15inlayHints\0\16checkOnSave\2\ncheck\0\17rustaceanvim\6g\bvim\0" },
+    loaded = false,
+    needs_bufread = true,
+    only_cond = false,
+    path = "/Users/lth/.local/share/nvim/site/pack/packer/opt/rustaceanvim",
     url = "https://github.com/mrcjkb/rustaceanvim"
   },
   ["telescope.nvim"] = {
@@ -236,6 +239,7 @@ vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
 time([[Defining lazy-load filetype autocommands]], true)
+vim.cmd [[au FileType rust ++once lua require("packer.load")({'rustaceanvim'}, { ft = "rust" }, _G.packer_plugins)]]
 vim.cmd [[au FileType markdown ++once lua require("packer.load")({'markdown-preview.nvim'}, { ft = "markdown" }, _G.packer_plugins)]]
 time([[Defining lazy-load filetype autocommands]], false)
   -- Event lazy-loads

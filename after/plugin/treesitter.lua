@@ -1,6 +1,7 @@
 print("Perform after/plugin/treesitter.lua")
 
 require'nvim-treesitter.configs'.setup {
+	build = ":TSUpdate",
 	-- A list of parser names, or "all" (the listed parsers MUST always be installed)
 	ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "rust", "toml", "slint", "java" },
 
@@ -26,3 +27,8 @@ require'nvim-treesitter.configs'.setup {
 -- Treesitter folding
 vim.wo.foldmethod = 'expr'
 vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
+vim.g.rustaceanvim = {
+	tools = {
+		autoSetHints = true,
+	}
+}

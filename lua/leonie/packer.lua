@@ -77,7 +77,26 @@ return require('packer').startup(function(use)
 
 	use "lewis6991/gitsigns.nvim"
 
-	use 'mrcjkb/rustaceanvim'
+	use {
+		'mrcjkb/rustaceanvim',
+		ft = { "rust" },
+		config = function()
+			vim.g.rustaceanvim = {
+				server = {
+					default_sett ings = {
+						["rust-analyzer"] = {
+							checkOnSave = true,
+							check = {
+								enable = true,
+								command = "clippy",
+							},
+							inlayHints = { locationLinks = false },
+						}
+					}
+				}
+			}
+		end
+	}
 
 	 -- Completion framework:
 	 use 'hrsh7th/nvim-cmp' 
