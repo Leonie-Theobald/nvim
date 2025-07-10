@@ -83,7 +83,7 @@ return require('packer').startup(function(use)
 		config = function()
 			vim.g.rustaceanvim = {
 				server = {
-					default_sett ings = {
+					default_settings = {
 						["rust-analyzer"] = {
 							checkOnSave = true,
 							check = {
