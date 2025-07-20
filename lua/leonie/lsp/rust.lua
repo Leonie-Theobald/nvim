@@ -31,7 +31,7 @@ vim.lsp.config('rust_analyzer', {
 				autoself = { enable = true },
 				fullFunctionSignature = { enable = true },
 			},
-			checkOnSave = { command = "clippy" },
+			check = { command = "clippy" },
 			cargo = { allFeatures = true },
 		}
 	}
