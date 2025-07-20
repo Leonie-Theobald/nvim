@@ -20,6 +20,7 @@
 --
 vim.lsp.enable("rust_analyzer")
 vim.lsp.config('rust_analyzer', {
+	on_attach = on_attach,
 	settings = {
 		['rust-analyzer'] = {
 			diagnostics = {
