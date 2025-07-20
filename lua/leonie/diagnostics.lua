@@ -47,6 +47,7 @@ print("Setup diagnostics.lua")
 vim.diagnostic.config({
 	update_in_insert = true,
 	float = {
+		max_width = "100",
 		header = "",
 		focusable = false,
 		border = "rounded",

@@ -18,6 +18,13 @@
 --   },
 -- })
 --
+
+vim.keymap.set("n", "K", function()
+	vim.lsp.buf.hover({
+		border = "rounded"
+	})
+end)
+
 vim.lsp.enable("rust_analyzer")
 vim.lsp.config('rust_analyzer', {
 	on_attach = on_attach,

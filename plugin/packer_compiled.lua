@@ -79,6 +79,11 @@ _G.packer_plugins = {
     path = "/Users/lth/.local/share/nvim/site/pack/packer/start/cmp-buffer",
     url = "https://github.com/hrsh7th/cmp-buffer"
   },
+  ["cmp-nvim-lsp"] = {
+    loaded = true,
+    path = "/Users/lth/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp",
+    url = "https://github.com/hrsh7th/cmp-nvim-lsp"
+  },
   ["cmp-nvim-lsp-signature-help"] = {
     loaded = true,
     path = "/Users/lth/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp-signature-help",
