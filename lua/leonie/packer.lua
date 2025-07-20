@@ -30,7 +30,6 @@ return require('packer').startup(function(use)
 	use "tpope/vim-fugitive"
 
 	use "williamboman/mason.nvim"
-	use "williamboman/mason-lspconfig.nvim"
 
 	use "doums/rg.nvim"
 
@@ -77,32 +76,10 @@ return require('packer').startup(function(use)
 
 	use "lewis6991/gitsigns.nvim"
 
-	use {
-		'mrcjkb/rustaceanvim',
-		ft = { "rust" },
-		config = function()
-			vim.g.rustaceanvim = {
-				server = {
-					default_settings = {
-						["rust-analyzer"] = {
-							checkOnSave = true,
-							check = {
-								enable = true,
-								command = "clippy",
-							},
-							inlayHints = { locationLinks = false },
-						}
-					}
-				}
-			}
-		end
-	}
+	use "neovim/nvim-lspconfig"
 
 	 -- Completion framework:
 	 use 'hrsh7th/nvim-cmp' 
-
-	 -- LSP completion source:
-	 use 'hrsh7th/cmp-nvim-lsp'
 
 	 -- Useful completion sources:
 	 use 'hrsh7th/cmp-nvim-lua'

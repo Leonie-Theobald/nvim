@@ -79,11 +79,6 @@ _G.packer_plugins = {
     path = "/Users/lth/.local/share/nvim/site/pack/packer/start/cmp-buffer",
     url = "https://github.com/hrsh7th/cmp-buffer"
   },
-  ["cmp-nvim-lsp"] = {
-    loaded = true,
-    path = "/Users/lth/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp",
-    url = "https://github.com/hrsh7th/cmp-nvim-lsp"
-  },
   ["cmp-nvim-lsp-signature-help"] = {
     loaded = true,
     path = "/Users/lth/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp-signature-help",
@@ -126,11 +121,6 @@ _G.packer_plugins = {
     path = "/Users/lth/.local/share/nvim/site/pack/packer/opt/markdown-preview.nvim",
     url = "https://github.com/iamcco/markdown-preview.nvim"
   },
-  ["mason-lspconfig.nvim"] = {
-    loaded = true,
-    path = "/Users/lth/.local/share/nvim/site/pack/packer/start/mason-lspconfig.nvim",
-    url = "https://github.com/williamboman/mason-lspconfig.nvim"
-  },
   ["mason.nvim"] = {
     loaded = true,
     path = "/Users/lth/.local/share/nvim/site/pack/packer/start/mason.nvim",
@@ -158,6 +148,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/lth/.local/share/nvim/site/pack/packer/start/nvim-cmp",
     url = "https://github.com/hrsh7th/nvim-cmp"
+  },
+  ["nvim-lspconfig"] = {
+    loaded = true,
+    path = "/Users/lth/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
+    url = "https://github.com/neovim/nvim-lspconfig"
   },
   ["nvim-surround"] = {
     config = { "\27LJ\2\n?\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\18nvim-surround\frequire\0" },
@@ -190,14 +185,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/lth/.local/share/nvim/site/pack/packer/start/rg.nvim",
     url = "https://github.com/doums/rg.nvim"
-  },
-  rustaceanvim = {
-    config = { "\27LJ\2\né\2\0\0\6\0\14\0\0156\0\0\0009\0\1\0005\1\f\0005\2\n\0005\3\b\0005\4\3\0005\5\4\0=\5\5\0045\5\6\0=\5\a\4=\4\t\3=\3\v\2=\2\r\1=\1\2\0K\0\1\0\vserver\1\0\1\vserver\0\21default_settings\1\0\1\21default_settings\0\18rust-analyzer\1\0\1\18rust-analyzer\0\15inlayHints\1\0\1\18locationLinks\1\ncheck\1\0\2\venable\2\fcommand\vclippy\1\0\3\15inlayHints\0\16checkOnSave\2\ncheck\0\17rustaceanvim\6g\bvim\0" },
-    loaded = false,
-    needs_bufread = true,
-    only_cond = false,
-    path = "/Users/lth/.local/share/nvim/site/pack/packer/opt/rustaceanvim",
-    url = "https://github.com/mrcjkb/rustaceanvim"
   },
   ["telescope.nvim"] = {
     loaded = true,
@@ -239,7 +226,6 @@ vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
 time([[Defining lazy-load filetype autocommands]], true)
-vim.cmd [[au FileType rust ++once lua require("packer.load")({'rustaceanvim'}, { ft = "rust" }, _G.packer_plugins)]]
 vim.cmd [[au FileType markdown ++once lua require("packer.load")({'markdown-preview.nvim'}, { ft = "markdown" }, _G.packer_plugins)]]
 time([[Defining lazy-load filetype autocommands]], false)
   -- Event lazy-loads
