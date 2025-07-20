@@ -2,6 +2,7 @@ print("perform leonie/init.lua")
 
 require("leonie.basic")
 require("leonie.colorscheme")
+require("leonie.diagnostics")
 require("leonie.packer")
 require("leonie.mason")
 require("leonie.lsp.rust")
