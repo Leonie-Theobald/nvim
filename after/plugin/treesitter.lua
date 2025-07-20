@@ -27,6 +27,8 @@ require'nvim-treesitter.configs'.setup {
 -- Treesitter folding
 vim.wo.foldmethod = 'expr'
 vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
+vim.o.foldlevel = 99
+vim.o.foldlevelstart = 99
 vim.g.rustaceanvim = {
 	tools = {
 		autoSetHints = true,
