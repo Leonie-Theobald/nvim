@@ -14,12 +14,6 @@ vim.api.nvim_set_option('updatetime', 300)
 -- Completion Plugin Setup
 local cmp = require'cmp'
 cmp.setup({
-	-- Enable LSP snippets
-	snippet = {
-		expand = function(args)
-			vim.fn["vsnip#anonymous"](args.body)
-		end,
-	},
 	mapping = {
 		['<C-p>'] = cmp.mapping.select_prev_item(),
 		['<C-n>'] = cmp.mapping.select_next_item(),
