@@ -38,6 +38,7 @@ vim.lsp.config('rust_analyzer', {
 				autoimport = { enable = true },
 				autoself = { enable = true },
 				fullFunctionSignature = { enable = true },
+				postfix = { enable = true },
 			},
 			check = { command = "clippy" },
 			cargo = { allFeatures = true },
