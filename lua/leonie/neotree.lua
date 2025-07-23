@@ -111,7 +111,7 @@ require("neo-tree").setup({
 					}	
 				-- partially staged and modified/unstaged
 				-- happens if a file is staged and then modified again
-				elseif git_status == "[MM]" then
+				elseif git_status == "[MM]" or git_status == "[AM]" then
 					return {
 						text = "5",
 						highlight = "NeoTreeGitUnstaged"
