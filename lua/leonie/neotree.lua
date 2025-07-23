@@ -20,6 +20,8 @@ vim.api.nvim_set_hl(0, "DiagnosticsError", { ctermfg=9 }) -- mark conflict files
 vim.api.nvim_set_hl(0, "NeoTreeDirectoryName", { ctermfg=15 }) -- make directory font default 
 vim.api.nvim_set_hl(0, "NeoTreeDirectoryIcon", { }) -- make directory icon default 
 
+vim.api.nvim_set_hl(0, "NeoTreeModified", { ctermfg=197 }) -- make directory font default 
+
 require("neo-tree").setup({
 	sort_function = function (a, b)
 		return a.path < b.path
@@ -47,10 +49,10 @@ require("neo-tree").setup({
 			default = " ",
 			hightlight = "NeoTreeDarkFont",
 		},
-		-- modified = {
-		-- 	symbol = "~",
-		-- 	highlight = "",
-		-- },
+		modified = {
+			symbol = "⭓",
+			highlight = "NeoTreeModified",
+		},
 	},
 	filesystem = {
 		filtered_items = {
@@ -181,16 +183,14 @@ require("neo-tree").setup({
 				{ "git_status_or_default" },
 				{ "diagnostics_or_default" },
 				{ "name" },
-				-- { "git_status" },
-				-- { "diagnostics" },
+				{ "modified" },
 			},
 			file = {
 				{ "icon" },
 				{ "git_status_or_default" },
 				{ "diagnostics_or_default" },
 				{ "name" },
-				-- { "git_status" },
-				-- { "diagnostics" },
+				{ "modified" },
 			},
 		},
 	},
