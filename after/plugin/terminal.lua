@@ -8,13 +8,30 @@ local function open_split_terminal_window(cmd)
 
 end
 
+local function get_root()
+	local bufname = vim.api.nvim_buf_get_name(0)
+	local root = require("lspconfig.util").root_pattern("Cargo.toml")(bufname)
+	return root
+end
+
 vim.keymap.set("n", "<leader>gs", function()
 	open_split_terminal_window("git status")
 end)
 vim.keymap.set("n", "<leader>adog", function()
 	open_split_terminal_window("git log --all --decorate --oneline --graph")
 end)
-
+vim.keymap.set("n", "<leader>br", function()
+	open_split_terminal_window("cd " .. get_root() .. "; cargo run")
+end)
+vim.keymap.set("n", "<leader>bb", function()
+	open_split_terminal_window("cd " .. get_root() .. "; cargo build")
+end)
+vim.keymap.set("n", "<leader>bt", function()
+	open_split_terminal_window("cd " .. get_root() .. "; cargo test --all-targets")
+end)
 
 vim.keymap.set("t", "<leader>gs", "git status<CR>")
 vim.keymap.set("t", "<leader>adog", "git log --all --decorate --oneline --graph<CR>")
+vim.keymap.set("t", "<leader>br", "cargo run<CR>")
+vim.keymap.set("t", "<leader>bb", "cargo build<CR>")
+vim.keymap.set("t", "<leader>bt", "cargo test --all-targets<CR>")
