@@ -78,6 +78,8 @@ return require('packer').startup(function(use)
 
 	use "neovim/nvim-lspconfig"
 
+	use "slint-ui/vim-slint"
+
 	 -- Completion framework:
 	 use 'hrsh7th/nvim-cmp' 
 
