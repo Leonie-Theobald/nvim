@@ -25,6 +25,13 @@ vim.keymap.set("n", "K", function()
 	})
 end)
 
+vim.keymap.set({"i", "n"}, ";;", function()
+	local line = vim.api.nvim_get_current_line()
+	if not line:match(";%s*$") then
+		vim.api.nvim_set_current_line(line .. ";")
+	end
+end, { desc = "Add semicolon at end of line" })
+
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = false
 
