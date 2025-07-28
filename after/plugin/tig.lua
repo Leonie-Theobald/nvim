@@ -42,3 +42,4 @@ function ToggleTigAll()
 end
 
 vim.keymap.set("n", "§§", ToggleTigAll, { noremap = true, silent = true })
+vim.keymap.set("t", "§§", ToggleTigAll, { noremap = true, silent = true })
