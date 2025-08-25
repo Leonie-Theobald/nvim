@@ -92,8 +92,17 @@ return require('packer').startup(function(use)
 	 use 'hrsh7th/cmp-buffer'                            
 	 use 'hrsh7th/vim-vsnip'
 
-	use {
-		'nvim-lualine/lualine.nvim',
-		requires = { 'nvim-tree/nvim-web-devicons', opt = true }
-	}
+	 use {
+		 'nvim-lualine/lualine.nvim',
+		 requires = { 'nvim-tree/nvim-web-devicons', opt = true }
+	 }
+
+	 use {
+		 'chomosuke/typst-preview.nvim',
+		 tag = 'v1.*',
+		 config = function()
+			 require 'typst-preview'.setup {
+				 follow_cursor = true,
+			 } end,
+	 }
 end)
