@@ -17,6 +17,7 @@ vim.api.nvim_set_hl(0, "DiagnosticsInfo", { ctermfg=6 }) -- mark conflict files 
 vim.api.nvim_set_hl(0, "DiagnosticsWarning", { ctermfg=202 }) -- mark conflict files red
 vim.api.nvim_set_hl(0, "DiagnosticsError", { ctermfg=9 }) -- mark conflict files red
 
+vim.api.nvim_set_hl(0, "NeoTreeFileName", { ctermfg=15 }) -- make directory font default 
 vim.api.nvim_set_hl(0, "NeoTreeDirectoryName", { ctermfg=15 }) -- make directory font default 
 vim.api.nvim_set_hl(0, "NeoTreeDirectoryIcon", { }) -- make directory icon default 
 
@@ -27,6 +28,9 @@ require("neo-tree").setup({
 		return a.path < b.path
 	end,
 	default_component_configs = {
+		name = {
+			use_git_status_colors = false,
+		},
 		indent = {
 			indent_size = 2,
 			padding = 1, -- extra padding on left hand side
