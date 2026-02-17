@@ -7,6 +7,7 @@ vim.lsp.config("tinymist", {
 		lint = {
 			enabled = true,
 		},
-	}
-  	filetypes = { 'slint' },
+	},
+	root_markers = { '.git' },
+  	filetypes = { 'typst' },
 })
