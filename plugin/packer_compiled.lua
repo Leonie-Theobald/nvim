@@ -186,6 +186,12 @@ _G.packer_plugins = {
     path = "/Users/lth/.local/share/nvim/site/pack/packer/start/plenary.nvim",
     url = "https://github.com/nvim-lua/plenary.nvim"
   },
+  regput = {
+    config = { "\27LJ\2\nQ\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\1\17left_sidebar\rneo-tree\nsetup\vregput\frequire\0" },
+    loaded = true,
+    path = "/Users/lth/.local/share/nvim/site/pack/packer/start/regput",
+    url = "https://github.com/leonie-theobald/regput"
+  },
   ["rg.nvim"] = {
     loaded = true,
     path = "/Users/lth/.local/share/nvim/site/pack/packer/start/rg.nvim",
@@ -238,6 +244,10 @@ time([[Setup for markdown-preview.nvim]], false)
 time([[Config for nvim-surround]], true)
 try_loadstring("\27LJ\2\n?\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\18nvim-surround\frequire\0", "config", "nvim-surround")
 time([[Config for nvim-surround]], false)
+-- Config for: regput
+time([[Config for regput]], true)
+try_loadstring("\27LJ\2\nQ\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\1\17left_sidebar\rneo-tree\nsetup\vregput\frequire\0", "config", "regput")
+time([[Config for regput]], false)
 -- Config for: typst-preview.nvim
 time([[Config for typst-preview.nvim]], true)
 try_loadstring("\27LJ\2\nQ\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\1\18follow_cursor\2\nsetup\18typst-preview\frequire\0", "config", "typst-preview.nvim")
