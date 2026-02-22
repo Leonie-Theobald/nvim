@@ -104,4 +104,13 @@ return require('packer').startup(function(use)
 				 follow_cursor = true,
 			 } end,
 	 }
+
+	 use {
+		 "leonie-theobald/regput",
+		 config = function()
+			 require("regput").setup({
+				 left_sidebar = "neo-tree",
+			 })
+		 end,
+	 }
 end)
