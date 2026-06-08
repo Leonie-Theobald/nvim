@@ -19,7 +19,7 @@ vim.api.nvim_set_hl(0, "DiagnosticsError", { ctermfg=9 }) -- mark conflict files
 
 vim.api.nvim_set_hl(0, "NeoTreeFileName", { ctermfg=15 }) -- make directory font default 
 vim.api.nvim_set_hl(0, "NeoTreeDirectoryName", { ctermfg=15 }) -- make directory font default 
-vim.api.nvim_set_hl(0, "NeoTreeDirectoryIcon", { }) -- make directory icon default 
+vim.api.nvim_set_hl(0, "NeoTreeDirectoryIcon", { ctermfg = 242 })
 
 vim.api.nvim_set_hl(0, "NeoTreeModified", { ctermfg=197 }) -- make directory font default 
 
@@ -115,6 +115,11 @@ require("neo-tree").setup({
 						text = "S",
 						highlight = "NeoTreeGitStaged"
 					}	
+				elseif git_status == "[A.]" then
+					return {
+						text = "S",
+						highlight = "NeoTreeGitStaged"
+					}	
 				-- partially staged and modified/unstaged
 				-- happens if a file is staged and then modified again
 				elseif git_status == "[MM]" or git_status == "[AM]" then
@@ -200,4 +205,3 @@ require("neo-tree").setup({
 	},
 })
 
-vim.api.nvim_set_hl(0, "NeoTreeDirectoryIcon", { ctermfg = 242 })
