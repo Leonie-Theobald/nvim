@@ -1,13 +1,8 @@
 return {
-	{
-		"leonie-theobald/regput",
-
-		config = function()
-			require("regput").setup({
-
-				left_sidebar = "neo-tree",
-			})
-
-		end,
-	}
+	"leonie-theobald/regput",
+	config = function()
+		require("regput").setup({
+			left_sidebar = "neo-tree",
+		})
+	end,
 }

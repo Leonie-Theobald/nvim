@@ -1,12 +1,3 @@
-print("Setup lualine.lua")
-
--- Eviline config for lualine
--- Author: shadmansaleh
--- Credit: glepnir
-local lualine = require('lualine')
-
--- Color table for highlights
--- stylua: ignore
 local colors = {
 	transparent_bg = "",
 	bg       = 15,
@@ -27,15 +18,9 @@ local conditions = {
 	hide_in_width = function()
 		return vim.fn.winwidth(0) > 80
 	end,
-	-- check_git_workspace = function()
-	-- 	local filepath = vim.fn.expand('%:p:h')
-	-- 	local gitdir = vim.fn.finddir('.git', filepath .. ';')
-	-- 	return gitdir and #gitdir > 0 and #gitdir < #filepath
-	-- end,
 }
 
--- Config
-local config = {
+local own_config = {
 	options = {
 		-- Disable sections and component separators
 		component_separators = '',
@@ -71,14 +56,14 @@ local config = {
 
 -- Inserts a component in lualine_c at left section
 local function ins_left(component)
-	table.insert(config.sections.lualine_c, component)
-	table.insert(config.inactive_sections.lualine_c, component)
+	table.insert(own_config.sections.lualine_c, component)
+	table.insert(own_config.inactive_sections.lualine_c, component)
 end
 
 -- Inserts a component in lualine_x at right section
 local function ins_right(component)
-	table.insert(config.sections.lualine_x, component)
-	table.insert(config.inactive_sections.lualine_x, component)
+	table.insert(own_config.sections.lualine_x, component)
+	table.insert(own_config.inactive_sections.lualine_x, component)
 end
 
 ins_left {
@@ -132,5 +117,9 @@ ins_right {
 	-- cond = conditions.hide_in_width,
 }
 
--- Now don't forget to initialize lualine
-lualine.setup(config)
+return {
+	"nvim-lualine/lualine.nvim",
+	config = function()
+		require("lualine").setup(own_config)
+	end
+}
