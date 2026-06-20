@@ -1,48 +1,4 @@
 print("Setup diagnostics.lua")
--- vim.diagnostic.config({
--- 	virtual_text = {
--- 		prefix = '●',  -- Could be '●', '■', '▶', etc.
--- 		spacing = 4,
--- 	},
--- 	signs = true,
--- 	underline = true,
--- 	update_in_insert = false,
--- 	severity_sort = true,
--- })
-
--- Configure diagnostics globally
--- vim.diagnostic.config({
--- 	virtual_text = {
--- 		-- Only show errors as inline virtual text
--- 		severity = {
--- 			min = vim.diagnostic.severity.ERROR,
--- 			max = vim.diagnostic.severity.ERROR,
--- 		},
--- 		prefix = '●',  -- Customize this as you like
--- 	},
--- 	signs = true,
--- 	underline = true,
--- 	update_in_insert = false,
--- 	severity_sort = true,
--- 	float = {
--- 		border = "rounded",
--- 		source = "always", -- show source in the popup
--- 	},
--- })
-
--- only available if cursor directly on affected code
--- vim.keymap.set("n", "<leader>d", function()
--- 	local cursor_diagnostics = vim.diagnostic.get(0, { lnum = vim.fn.line('.') - 1 })
--- 	if #cursor_diagnostics > 0 then
--- 		vim.diagnostic.open_float(nil, {
--- 			focusable = true,
--- 			border = "rounded",
--- 			source = "always",
--- 			scope = "cursor",
--- 		})
--- 	end
--- end, { desc = "Show floating window for diagnostics." })
--- 
 
 vim.diagnostic.config({
 	update_in_insert = true,

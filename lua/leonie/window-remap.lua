@@ -1,9 +1,5 @@
 print("Perform after/plugin/remap.lua")
 
--- vim.keymap.set("n", "<leader>ca", vim.cmd.Ex)
-
--- vim.keymap.set("n", vim.cmd("terminal"), vim.cmd("t"))
-
 vim.keymap.set('n', '<C-h>', '<C-w>h')
 vim.keymap.set('n', '<C-j>', '<C-w>j')
 vim.keymap.set('n', '<C-k>', '<C-w>k')
